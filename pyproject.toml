@@ -1,0 +1,100 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "invoice-router"
+version = "0.1.0"
+description = "Deterministic invoice routing and extraction with fingerprint- and template-family-aware heuristics."
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+authors = [{ name = "whitebalsamic" }]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Image Recognition",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+  "asyncpg==0.31.0",
+  "celery==5.6.3",
+  "click==8.3.2",
+  "ImageHash==4.3.2",
+  "numpy==2.4.4",
+  "opencv-python-headless==4.13.0.92",
+  "pillow==12.2.0",
+  "pydantic==2.13.1",
+  "pydantic-settings==2.13.1",
+  "PyMuPDF==1.27.2.2",
+  "python-dateutil==2.9.0.post0",
+  "pytesseract==0.3.13",
+  "PyYAML==6.0.3",
+  "redis==7.4.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "build>=1.2.2",
+  "mypy>=1.18.2",
+  "pre-commit>=4.3.0",
+  "pytest==9.0.3",
+  "ruff>=0.13.0",
+  "types-PyYAML>=6.0.12.20250915",
+]
+
+[project.scripts]
+invoice-router = "invoice_router.cli.main:main"
+
+[project.urls]
+Homepage = "https://github.com/whitebalsamic/invoice-router"
+Repository = "https://github.com/whitebalsamic/invoice-router"
+Issues = "https://github.com/whitebalsamic/invoice-router/issues"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+invoice_router = ["py.typed"]
+"invoice_router.config" = ["defaults.yaml"]
+
+[tool.pytest.ini_options]
+markers = [
+  "unit: fast tests for isolated logic and command wiring with mocked dependencies",
+  "integration: tests covering real adapter boundaries and multi-module interactions",
+  "e2e: top-level user-flow tests with minimal internal mocking",
+  "postgres: tests that require a real temporary Postgres database",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["invoice_router"]
+
+[tool.ruff.lint.per-file-ignores]
+"scripts/*.py" = ["E402"]
+"tests/conftest.py" = ["E402"]
+
+[tool.mypy]
+python_version = "3.12"
+files = [
+  "src/invoice_router/config",
+  "src/invoice_router/demo.py",
+  "src/invoice_router/infrastructure/filesystem/paths.py",
+  "src/invoice_router/infrastructure/persistence/postgres.py",
+  "src/invoice_router/models",
+]
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+show_error_codes = true

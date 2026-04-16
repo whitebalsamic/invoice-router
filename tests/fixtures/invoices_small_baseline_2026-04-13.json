@@ -1,0 +1,31 @@
+{
+  "command": "invoice-router process ./invoices-small --reset --verbose --reset-templates",
+  "date": "2026-04-13",
+  "dataset": "invoices-small",
+  "total_invoices": 13,
+  "total_time_ms": 231369,
+  "route_counts": {
+    "DISCOVERY": 8,
+    "ERROR": 5
+  },
+  "status_counts": {
+    "Passed": 8,
+    "Unknown argument: show_log": 5
+  },
+  "discovery_passed": 8,
+  "discovery_rejected": 0,
+  "apply_runtime_errors": 5,
+  "quality_scores": {
+    "min": 0.035,
+    "avg": 0.306,
+    "max": 0.592
+  },
+  "apply_error_invoices": [
+    "gokulraja_0004.png",
+    "gokulraja_0006.png",
+    "gokulraja_0009.png",
+    "gokulraja_0012.png",
+    "gokulraja_0013.png"
+  ],
+  "failure_mode": "Unknown argument: show_log"
+}

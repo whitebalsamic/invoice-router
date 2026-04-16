@@ -1,0 +1,18 @@
+name: Feature request
+description: Suggest an improvement to invoice-router
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What workflow or use case is not well served today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: Describe the desired outcome and any constraints or tradeoffs.
+    validations:
+      required: true

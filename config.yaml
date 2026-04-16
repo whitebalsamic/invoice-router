@@ -1,0 +1,83 @@
+validation:
+  apply_threshold: 0.90
+  discovery_threshold: 0.95
+  jaccard_threshold: 0.85
+  allow_cent_scale_equivalence: false
+
+fingerprinting:
+  visual_hash_hamming_threshold: 12.5
+
+template_lifecycle:
+  establish_min_count: 5
+  establish_min_confidence: 0.95
+  degradation_threshold: 0.85
+  degradation_window: 10
+  rediscovery_attempts: 3
+
+quality:
+  blur_threshold: 100.0
+  contrast_threshold: 0.3
+  quality_threshold: 0.5
+  quality_region_buffer_multiplier: 2
+
+processing:
+  batch_size: 50
+  worker_concurrency: 4
+  auto_profile: true
+  default_profile: default
+  profiles:
+    default:
+      worker_concurrency: 4
+    apple_silicon_air:
+      worker_concurrency: 4
+    apple_silicon_workhorse:
+      worker_concurrency: 8
+  machine_profiles:
+    - profile: apple_silicon_air
+      system: Darwin
+      architecture: arm64
+      model_name_patterns:
+        - "MacBook Air*"
+    - profile: apple_silicon_workhorse
+      system: Darwin
+      architecture: arm64
+      model_name_patterns:
+        - "MacBook Pro*"
+        - "Mac mini*"
+        - "Mac Studio*"
+        - "Mac Pro*"
+
+region_buffer_pixels: 5
+
+ocr:
+  single_field_engine: tesseract
+  table_engine: tesseract
+
+table_detection:
+  min_line_span_fraction: 0.40
+  column_gap_px: 20
+  row_gap_multiplier: 1.5
+
+discovery:
+  inference_confidence_threshold: 0.60
+  label_confirmation_threshold: 0.70
+  label_position_tolerance: 0.05
+
+heuristic_discovery:
+  enabled: true
+  min_label_score: 0.72
+  min_page_confidence: 0.35
+  prefer_right_of_label: true
+  max_region_width_fraction: 0.45
+  address_region_height_multiplier: 4.0
+  enable_table_detection: true
+  min_table_header_score: 0.75
+
+provider_resolution:
+  minimum_confidence: 0.75
+  providers: {}
+
+field_mapping:
+  quantity: qty
+  amount: total
+  rate: unit_price

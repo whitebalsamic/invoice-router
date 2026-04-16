@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://invoice-router.local/schemas/ground-truth-v2.schema.json",
+  "title": "invoice-router Ground Truth v2",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "document",
+    "summary",
+    "lineItems"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "pattern": "^gt-v2"
+    },
+    "sourceImage": {
+      "type": "string"
+    },
+    "annotator": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "reviewed": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": true
+    },
+    "document": {
+      "type": "object",
+      "properties": {
+        "invoiceNumber": {
+          "$ref": "#/$defs/textField"
+        },
+        "invoiceDate": {
+          "$ref": "#/$defs/textField"
+        },
+        "sellerName": {
+          "$ref": "#/$defs/textField"
+        },
+        "customerName": {
+          "$ref": "#/$defs/textField"
+        },
+        "currency": {
+          "$ref": "#/$defs/textField"
+        },
+        "country": {
+          "$ref": "#/$defs/textField"
+        }
+      },
+      "additionalProperties": true
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "subtotal": {
+          "$ref": "#/$defs/numberField"
+        },
+        "tax": {
+          "$ref": "#/$defs/numberField"
+        },
+        "discount": {
+          "$ref": "#/$defs/numberField"
+        },
+        "shipping": {
+          "$ref": "#/$defs/numberField"
+        },
+        "totalAmount": {
+          "$ref": "#/$defs/numberField"
+        }
+      },
+      "additionalProperties": true
+    },
+    "lineItems": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/lineItem"
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "fieldStatus": {
+      "type": "string",
+      "enum": [
+        "present",
+        "absent",
+        "unclear",
+        "derived"
+      ]
+    },
+    "baseField": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "$ref": "#/$defs/fieldStatus"
+        },
+        "raw": {
+          "type": [
+            "string",
+            "number",
+            "integer",
+            "null"
+          ]
+        },
+        "evidence": {
+          "type": "string"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "additionalProperties": true
+    },
+    "textField": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/baseField"
+        },
+        {
+          "properties": {
+            "value": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "numberField": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/baseField"
+        },
+        {
+          "properties": {
+            "value": {
+              "type": "number"
+            }
+          }
+        }
+      ]
+    },
+    "lineItem": {
+      "type": "object",
+      "properties": {
+        "index": {
+          "type": "integer"
+        },
+        "description": {
+          "$ref": "#/$defs/textField"
+        },
+        "quantity": {
+          "$ref": "#/$defs/numberField"
+        },
+        "unitPrice": {
+          "$ref": "#/$defs/numberField"
+        },
+        "amount": {
+          "$ref": "#/$defs/numberField"
+        },
+        "tax": {
+          "$ref": "#/$defs/numberField"
+        },
+        "taxRate": {
+          "$ref": "#/$defs/numberField"
+        },
+        "sku": {
+          "$ref": "#/$defs/textField"
+        },
+        "itemCode": {
+          "$ref": "#/$defs/textField"
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

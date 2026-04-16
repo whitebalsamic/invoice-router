@@ -1,0 +1,15 @@
+.git
+.github
+.pytest_cache
+.ruff_cache
+.mypy_cache
+.venv
+.venv312
+__pycache__
+*.pyc
+.DS_Store
+.demo
+.local
+dist
+build
+htmlcov
